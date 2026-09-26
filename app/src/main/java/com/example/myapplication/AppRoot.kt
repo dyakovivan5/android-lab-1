@@ -2,9 +2,9 @@ package com.example.myapplication
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.myapplication.ui.screens.BubbleSortScreen
+import com.example.myapplication.ui.screens.DuplicateElementsScreen
 
 @Composable
 fun AppRoot(modifier: Modifier = Modifier) {
-    BubbleSortScreen(modifier = modifier)
+    DuplicateElementsScreen(modifier = modifier)
 }
