@@ -16,14 +16,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.domain.BubbleSort
+import com.example.myapplication.domain.DuplicateElements
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
-fun BubbleSortScreen(modifier: Modifier = Modifier) {
+fun DuplicateElementsScreen(modifier: Modifier = Modifier) {
     var input by remember { mutableStateOf("") }
     var output by remember { mutableStateOf("") }
-    var autoMode by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -33,52 +32,43 @@ fun BubbleSortScreen(modifier: Modifier = Modifier) {
     ) {
         OutlinedTextField(
             value = input,
-            onValueChange = { newValue ->
-                input = newValue
-                if (autoMode) {
-                    output = BubbleSort.runSort(newValue)
-                }
-            },
+            onValueChange = {},
             modifier = Modifier.fillMaxWidth(),
-            label = { Text("Числа") },
+            label = { Text("Список") },
+            minLines = 2
         )
 
         OutlinedTextField(
             value = output,
             onValueChange = {},
             modifier = Modifier.fillMaxWidth(),
-            label = { Text("Результат") },
+            label = { Text("Повторяющиеся элементы") },
             minLines = 2
         )
 
         Button(
             onClick = {
-                output = BubbleSort.runSort(input)
-            },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = !autoMode
-        ) {
-            Text("Отсортировать")
-        }
+                val numbers = DuplicateElements.generateNumbers()
+                val duplicates = DuplicateElements.find(numbers)
 
-        Button(
-            onClick = {
-                autoMode = !autoMode
-                if (autoMode) {
-                    output = BubbleSort.runSort(input)
+                input = numbers.joinToString(", ")
+                output = if (duplicates.isEmpty()) {
+                    "Нет повторяющихся элементов"
+                } else {
+                    duplicates.joinToString(", ")
                 }
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text(if (autoMode) "Автоматический режим ВКЛ" else "Автоматический режим ВЫКЛ")
+            Text("Найти повторяющиеся")
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun BubbleSortScreenPreview() {
+fun DuplicateElementsScreenPreview() {
     MyApplicationTheme {
-        BubbleSortScreen()
+        DuplicateElementsScreen()
     }
 }
